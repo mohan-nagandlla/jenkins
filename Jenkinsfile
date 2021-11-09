@@ -28,4 +28,11 @@ pipeline{
     }
   }
 
+ stage('NewTest'){
+  steps{
+    echo 'Newtest ...'
+       }
+    }
+  }
+
 }
