@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        docker { image 'node:14-alpine' }
+        docker { image 'nsc-registry.infra.ericsson.se:5000/node:14' }
     }
     stages {
         stage('Test') {
