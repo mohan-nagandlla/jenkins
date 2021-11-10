@@ -8,5 +8,12 @@ pipeline {
                 sh 'node --version'
             }
         }
+        stage('OutPut') {
+            steps {
+              sh ''' echo "Hi Mohan Nagandlla"
+                     echo "You have pulled the node image"
+                 '''
+            }  
+        }
     }
 }
