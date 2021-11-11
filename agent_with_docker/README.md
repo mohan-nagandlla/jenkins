@@ -1,8 +1,10 @@
+# Agent with Docker
+
 Installation the docker to the existed agent 
 
 **Step 1**
 
-Build Dockerfile which contian docker installtion to ru dokcer inside agent
+Build Dockerfile which contian docker installtion to run dokcer inside agent
 
 **Step 2**
 
