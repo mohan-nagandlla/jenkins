@@ -20,16 +20,24 @@ pipeline {
         git 'https://github.com/mohan-nagandlla/jenkins.git'
       }
     }
+
     stage('Build image') {
       steps{
         script {
-            docker.withRegistry( "" , registryCredential ) {
-              dockerImage = docker.build("$registry:$BUILD_NUMBER","--file=./agent_with_docker/Dockerfile .")
-              dockerImage.push()
-              }
+          dockerImage = docker.build("$registry:$BUILD_NUMBER","--file=./agent_with_docker/Dockerfile .")
         }
       }
     }
+   
+    stage('Push Image') {
+      steps{
+        script {
+          docker.withRegistry( "registry.hub.docker.com", registryCredential ) {
+            dockerImage.push()
+          }
+        }
+      }
+    }   
 
 
   }
