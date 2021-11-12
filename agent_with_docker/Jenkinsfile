@@ -8,7 +8,7 @@ pipeline {
 
   agent {
     dockerfile {
-        dir './agent_with_docker/'
+        dir './agent_with_docker'
                }
         }
 
