@@ -9,6 +9,7 @@ pipeline {
   agent {
     dockerfile {
         dir './agent_with_docker'
+        args '-v /tmp:/tmp'
                }
         }
 
