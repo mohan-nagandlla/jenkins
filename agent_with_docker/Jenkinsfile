@@ -19,7 +19,9 @@ pipeline {
     stage('Build image') {
       steps{
         script {
-          dockerImage = docker.build("$registry:$BUILD_NUMBER","--file=./agent_with_docker/Dockerfile .").push()
+          docker.withRegistry( 'https://registry.hub.docker.com', registryCredential ) {
+            dockerImage = docker.build("$registry:$BUILD_NUMBER","--file=./agent_with_docker/Dockerfile .").push()
+          }
         }
       }
     }
