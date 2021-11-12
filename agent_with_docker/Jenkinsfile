@@ -12,7 +12,7 @@ pipeline {
 
     stage('Cloning Source') {
       steps {
-        git clone 'https://github.com/mohan-nagandlla/jenkins.git'
+        git 'https://github.com/mohan-nagandlla/jenkins.git'
       }
     }
 
