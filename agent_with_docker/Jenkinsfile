@@ -6,15 +6,14 @@ pipeline {
     dockerImage = ""
   }
 
-  agent any
+  agent {
+    dockerfile {
+        dir './agent_with_docker/Dockerfile'
+               }
+        }
 
   stages {
 
-    stage('Cloning Source') {
-      steps {
-        git 'https://github.com/mohan-nagandlla/jenkins.git'
-      }
-    }
 
     stage('Build image') {
       steps{
