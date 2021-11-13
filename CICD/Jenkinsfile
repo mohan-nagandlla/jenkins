@@ -1,0 +1,106 @@
+/*
+  Namespace Creation
+*/
+
+def createNamespace (namespace) {
+    echo "Creating namespace ${namespace} if needed"
+
+    sh 'if [ -z "$(kubectl get ns ${namespace} -o name 2>/dev/null)" ]; then kubectl create ns ${namespace}; else echo "${namespace} is already exist"; fi'
+}
+
+/* 
+  Helm instalation function
+*/
+
+def helmInstall (namespace, release) {
+    echo "Installing ${release} in ${namespace}"
+
+    script {
+
+        sh """
+            helm repo add helmdepl ${HELM_REPO}
+            helm repo update
+            helm upgrade --install --namespace ${namespace} ${release} helmdepl/${chart_name} --set Prometheus.spec.image=${dockerImage}
+        """
+    }
+}
+
+pipeline {
+  
+  /* providing global env for this pipeline */
+  environment {
+    registry = "registry.hub.docker.com/mohan1997/mohan-nagandlla"
+    registryCredential = 'DockerHub'
+    dockerImage = ""
+  }
+
+  agent any
+  
+  stages {
+  
+   /* cloning the source code from public repo */
+
+    stage('Cloning Source') {
+      steps {
+        git 'https://github.com/mohan-nagandlla/jenkins.git'
+      }
+    }
+
+   /* building the docker image */
+
+    stage('Build image') {
+      steps{
+        script {
+          docker.withRegistry( 'https://registry.hub.docker.com', registryCredential ) {
+            dockerImage = docker.build("$registry:${image_version}","--file=./CICD/Dockerfile .")
+          }
+        }
+      }
+    }
+
+   /* Pushing the docker image to private repo */
+
+   stage('Push image') {
+      steps{
+        script {
+          docker.withRegistry( 'https://registry.hub.docker.com', registryCredential ) {
+            dockerImage.push()
+          }
+        }
+      }
+
+  }
+
+    stage('Testing resources') {
+      steps {
+        echo "checking the helm and kubernets cluster detials"
+        sh "helm version"
+        sh "kubectl version"
+      }
+    }
+   
+    stage('Namespace Creation') {
+      steps {
+        script {
+          echo "Creating Namespace ${namespace}"
+          createNamespace (namespace)
+          }
+       }
+
+    }
+ 
+    stage('Deploying Helm Package') {
+        steps {
+            script {
+ 
+                echo "Deploying application ${release} to ${namespace} namespace"
+
+                helmInstall(namespace, "${release}")
+            }
+        }
+    }      
+
+  }
+
+}
+
