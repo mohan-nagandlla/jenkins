@@ -27,8 +27,6 @@ def helmInstall (namespace, release) {
 
 pipeline {
 
-  /* the all installation should be done on master */
-
   agent any
   
   stages {
@@ -40,13 +38,22 @@ pipeline {
         sh "kubectl version"
       }
     }
-    
+   
+    stage('Namespace Creation') {
+      steps {
+        script {
+          echo "Creating Namespace ${namespace}"
+          createNamespace (namespace)
+          }
+       }
+
+    }
+ 
     stage('Deploying Helm Package') {
         steps {
             script {
  
                 echo "Deploying application ${release} to ${namespace} namespace"
-                createNamespace (namespace)
 
                 helmInstall(namespace, "${release}")
             }
