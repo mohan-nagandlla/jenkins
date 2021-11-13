@@ -1,14 +1,11 @@
-# Kubernets cluster accessing
+# CICD 
 
-We can able to access the resources of Kubernets by rbac 
+We will deploy completed setup like building pushing imaegs and deploying the helm
 
-## admin rbac
-
-kubectl create clusterrolebinding jenkins-admin-binding --clusterrole=cluster-admin --serviceaccount=[jenkins namespace]:default
 
 ## ENV
 
-the above jenkinsfile can require 4 env to run the pipline
+the above jenkinsfile can require 5 env to run the pipline
 
   1.namespace   
   the namespace to deploy the package
@@ -21,3 +18,6 @@ the above jenkinsfile can require 4 env to run the pipline
   
   4.chart_name  
   helm package name inside the repo
+
+  5.image_verison
+  builded image verion number
