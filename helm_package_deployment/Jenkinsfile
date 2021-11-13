@@ -29,7 +29,7 @@ pipeline {
 
   /* the all installation should be done on master */
 
-  agent { node { label 'master' } }
+  agent { node { label 'node-role.kubernetes.io/master' } }
   
   stages {
 
