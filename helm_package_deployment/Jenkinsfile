@@ -5,7 +5,7 @@
 def createNamespace (namespace) {
     echo "Creating namespace ${namespace} if needed"
 
-    if [ -z "$(kubectl get ns ${namespace} -o name 2>/dev/null)" ]; then kubectl create ns ${namespace}; else echo "${namespace} is already exist"; fi
+    sh 'if [ -z "$(kubectl get ns ${namespace} -o name 2>/dev/null)" ]; then kubectl create ns ${namespace}; else echo "${namespace} is already exist"; fi'
 }
 
 /* 
