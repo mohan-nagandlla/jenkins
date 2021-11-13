@@ -5,7 +5,7 @@ We will deploy completed setup like building pushing imaegs and deploying the he
 
 ## ENV
 
-the above jenkinsfile can require 5 env to run the pipline
+The above jenkinsfile can require 5 env to run the pipline
 
   1.namespace   
   the namespace to deploy the package
@@ -19,5 +19,6 @@ the above jenkinsfile can require 5 env to run the pipline
   4.chart_name  
   helm package name inside the repo
 
-  5.image_verison
+  5.image_verison 
+  
   builded image verion number
