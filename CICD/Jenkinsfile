@@ -20,7 +20,7 @@ def helmInstall (namespace, release) {
         sh """
             helm repo add helmdepl ${HELM_REPO}
             helm repo update
-            helm upgrade --install --namespace ${namespace} ${release} helmdepl/${chart_name} --set Prometheus.spec.image=${dockerImage}
+            helm upgrade --install --namespace ${namespace} ${release} helmdepl/${chart_name} --set Prometheus.spec.image="${registry}:${image_version}"
         """
     }
 }
